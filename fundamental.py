@@ -1,14 +1,28 @@
 import streamlit as st
+import yfinance as yf
+import pandas as pd
 
-def run_analysis():
-    st.subheader("Análise Fundamentalista e Quantitativa")
+def analise_fundamental():
+    st.title("Análise Fundamentalista + Quantitativa")
 
-    st.markdown("""
+    tickers = st.text_input("Digite os tickers separados por espaço (Ex: ITUB3.SA PETR4.SA WEGE3.SA)").split()
 
-    - Checklist fundamentalista baseado em critérios de valuation, endividamento, rentabilidade e crescimento.
-    - Métricas quantitativas como volatilidade, beta e momentum para complementar a decisão.
-    - Sugestão de compra baseada em combinação de fatores.
-    """)
+    if tickers:
+        st.subheader("Dados Fundamentais")
+        for ticker in tickers:
+            st.write(f"**{ticker}**")
+            try:
+                stock = yf.Ticker(ticker)
+                info = stock.info
 
-    # Simulação básica de checklist
-    st.write("Simulação de checklist fundamentalista em desenvolvimento.")
+                st.markdown(f"""
+                - **Setor:** {info.get('sector')}
+                - **Indústria:** {info.get('industry')}
+                - **Beta:** {info.get('beta')}
+                - **Dividend Yield:** {round(info.get('dividendYield', 0) * 100, 2)}%
+                - **P/L:** {info.get('trailingPE')}
+                - **ROE:** {info.get('returnOnEquity')}
+                - **Margem Líquida:** {info.get('profitMargins')}
+                """)
+            except:
+                st.warning(f"Não foi possível obter dados para {ticker}")
