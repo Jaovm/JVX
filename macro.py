@@ -1,15 +1,26 @@
 import streamlit as st
+import pandas as pd
+import numpy as np
 
-def show_macro_dashboard():
-    st.subheader("Dashboard Macroeconômico")
+def dashboard_macro():
+    st.title("Dashboard Macroeconômico")
+    st.subheader("Indicadores Econômicos")
 
-    st.metric("Selic", "10,25%", "-0,50pp")
-    st.metric("IPCA 12M", "3,9%", "-0,1pp")
-    st.metric("PIB Projeção", "2,1%", "+0,2pp")
-    st.metric("Dólar", "5,10", "-1,5%")
-    st.metric("Petróleo (Brent)", "85 USD", "+0,8%")
+    st.markdown("**Exemplo de Indicadores:**")
 
-    st.info("**Cenário Classificado como: Neutro**")
-    st.success("Setores Favorecidos: Saúde, Bancos, Seguradoras, Utilities")
+    col1, col2, col3 = st.columns(3)
 
-    st.markdown("A classificação automática é baseada nas projeções de inflação, PIB e política monetária.")
+    col1.metric("IPCA (12M)", "4,2%", "+0,3%")
+    col2.metric("Selic", "10,50%", "-0,25%")
+    col3.metric("PIB (Último)", "2,3%", "+0,4%")
+
+    st.subheader("Cenário Atual")
+    st.info("Cenário Neutro, com viés levemente expansionista. Beneficia setores como Consumo Discricionário, Tecnologia e Agronegócio.")
+
+    st.subheader("Boletim Focus (Exemplo Simulado)")
+    data = {
+        'Indicador': ['IPCA', 'Selic', 'PIB', 'Câmbio'],
+        'Projeção': ['4,2%', '9,75%', '2,1%', '4,90']
+    }
+    df = pd.DataFrame(data)
+    st.table(df)
