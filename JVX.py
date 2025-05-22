@@ -1,27 +1,19 @@
 import streamlit as st
-import macro, fundamental, optimizer, risk
+from utils import macro, fundamental, optimizer, risk
 
-st.set_page_config(page_title="Painel SPX Falcon", layout="wide")
+st.set_page_config(page_title="SPX Falcon - Painel de Investimentos", layout="wide")
 
-st.title("Painel de Suporte à Decisão - SPX Falcon")
-st.markdown("Este painel integra **análise fundamentalista, quantitativa e macroeconômica**, inspirado na gestão do SPX Falcon Master.")
-
-menu = st.sidebar.selectbox(
-    "Selecione uma opção:",
-    ["Dashboard Macro", "Análise de Ações", "Otimização de Carteira", "Simulador de Aporte", "Gestão de Risco"]
-)
+st.sidebar.title("SPX Falcon - Painel")
+menu = st.sidebar.selectbox("Menu", ["Dashboard Macro", "Análise Fundamentalista", "Otimização de Carteira", "Gestão de Riscos"])
 
 if menu == "Dashboard Macro":
-    macro.show_macro_dashboard()
+    macro.dashboard_macro()
 
-elif menu == "Análise de Ações":
-    fundamental.run_analysis()
+elif menu == "Análise Fundamentalista":
+    fundamental.analise_fundamental()
 
-elif menu == "Otimimização de Carteira":
-    optimizer.optimize_portfolio()
+elif menu == "Otimização de Carteira":
+    optimizer.otimizacao_carteira()
 
-elif menu == "Simulador de Aporte":
-    optimizer.simulate_aporte()
-
-elif menu == "Gestão de Risco":
-    risk.show_risk_dashboard()
+elif menu == "Gestão de Riscos":
+    risk.monitoramento_riscos()
