@@ -1,5 +1,5 @@
 import streamlit as st
-from utils import macro, fundamental, optimizer, risk
+import macro, fundamental, optimizer, risk
 
 st.set_page_config(page_title="SPX Falcon - Painel de Investimentos", layout="wide")
 
