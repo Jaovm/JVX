@@ -1,53 +1,30 @@
 import streamlit as st
 import yfinance as yf
 import pandas as pd
-import numpy as np
-from riskfolio import Portfolio
-import matplotlib.pyplot as plt
+from pypfopt import EfficientFrontier, risk_models, expected_returns
 
-def load_returns(tickers):
-    data = yf.download(tickers, period="3y")['Adj Close']
-    returns = data.pct_change().dropna()
-    return returns
+def otimizacao_carteira():
+    st.title("Otimização de Carteira - SPX Falcon")
 
-def hrp_optimization(returns):
-    p = Portfolio(returns=returns)
-    p.assets_stats(method_mu='hist', method_cov='ledoit')
-    p.optimize(model='HRP')
-    weights = p.weights.T
-    return weights
+    tickers = st.text_input("Tickers separados por espaço (Ex: WEGE3.SA PETR4.SA ITUB4.SA)").split()
 
-def markowitz_optimization(returns):
-    p = Portfolio(returns=returns)
-    p.assets_stats(method_mu='hist', method_cov='ledoit')
-    p.optimize(model='MaxSharpe', risk_free_rate=0.11/12)
-    weights = p.weights.T
-    return weights
+    if tickers:
+        st.subheader("Período de Dados")
+        periodo = st.selectbox("Período", ["1y", "3y", "5y"])
 
-def optimize_portfolio():
-    st.subheader("Otimização de Carteira")
+        st.subheader("Dados de Preços")
+        dados = yf.download(tickers, period=periodo)['Adj Close']
+        st.line_chart(dados)
 
-    tickers = st.multiselect("Selecione os ativos:", ['VALE3.SA', 'PETR4.SA', 'ITUB4.SA', 'WEGE3.SA'])
-    if len(tickers) < 2:
-        st.warning("Selecione pelo menos 2 ativos.")
-        return
+        st.subheader("Otimização")
+        retornos = expected_returns.mean_historical_return(dados)
+        matriz_risco = risk_models.sample_cov(dados)
 
-    returns = load_returns(tickers)
+        ef = EfficientFrontier(retornos, matriz_risco)
+        pesos = ef.max_sharpe()
+        limpos = ef.clean_weights()
 
-    method = st.radio("Método de Otimização", ["HRP", "Fronteira Eficiente"])
+        st.write("Pesos Ótimos para Maior Sharpe:")
+        st.json(limpos)
 
-    if method == "HRP":
-        weights = hrp_optimization(returns)
-    else:
-        weights = markowitz_optimization(returns)
-
-    st.dataframe(weights.style.format("{:.2%}"))
-
-    fig, ax = plt.subplots()
-    weights.plot.pie(y=weights.columns[0], autopct='%1.1f%%', ax=ax)
-    plt.ylabel("")
-    st.pyplot(fig)
-
-def simulate_aporte():
-    st.subheader("Simulador de Aporte")
-    st.info("Funcionalidade em desenvolvimento.")
+        performance = ef.portfolio_performance(verbose=True)
