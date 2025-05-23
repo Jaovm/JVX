@@ -24,7 +24,7 @@ def carregar_dados():
             dados = json.load(f)
         
         # Carregar resumo
-        resumo = pd.read_csv('data/resumo_acoes.csv')
+        resumo = pd.read_csv('resumo_acoes.csv')
         
         return dados, resumo
     except Exception as e:
