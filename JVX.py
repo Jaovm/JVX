@@ -20,7 +20,7 @@ st.set_page_config(
 def carregar_dados():
     try:
         # Carregar dados das ações
-        with open('data/acoes_dados.json', 'r') as f:
+        with open('acoes_dados.json', 'r') as f:
             dados = json.load(f)
         
         # Carregar resumo
