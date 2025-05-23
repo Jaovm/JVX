@@ -1,9 +1,4 @@
-streamlit
 pandas
 numpy
-yfinance
-scikit-learn
-matplotlib
-seaborn
-scipy
-pypfopt
+streamlit
+plotly
