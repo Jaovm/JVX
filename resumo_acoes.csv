@@ -1,0 +1,26 @@
+Símbolo,Nome,Preço Atual,Preço Justo,Preço Compra Forte,Potencial,Recomendação,Setor,Método
+AGRO3,BRASILAGRO  ON      NM,21.19,23.31,18.65,10.0,Compra,Commodities,Ciclo de Preços
+BBAS3,BRASIL      ON      NM,24.64,29.57,23.65,20.0,Compra,Financeiro,Gordon Growth
+BBSE3,BBSEGURIDADEON      NM,37.77,45.32,36.26,20.0,Compra,Financeiro,Gordon Growth
+BPAC11,BTGP BANCO  UNT     N2,39.49,47.39,37.91,20.0,Compra,Financeiro,Gordon Growth
+EGIE3,ENGIE BRASILON  ED  NM,40.7,37.0,29.6,-9.09,Venda Parcial,Utilities,Fluxo de Caixa Descontado
+ITUB3,ITAUUNIBANCOON      N1,33.27,39.92,31.94,20.0,Compra,Financeiro,Gordon Growth
+PRIO3,PETRORIO    ON      NM,38.63,42.49,33.99,10.0,Compra,Commodities,Ciclo de Preços
+PSSA3,PORTO SEGUROON      NM,48.98,58.78,47.02,20.0,Compra,Financeiro,Gordon Growth
+SAPR3,SANEPAR     ON      N2,6.29,5.72,4.57,-9.09,Venda Parcial,Utilities,Fluxo de Caixa Descontado
+SBSP3,SABESP      ON      NM,116.55,105.95,84.76,-9.09,Venda Parcial,Utilities,Fluxo de Caixa Descontado
+VIVT3,TELEF BRASILON,27.56,36.75,29.4,33.33,Compra Forte,Consumo,Múltiplos Comparáveis
+WEGE3,WEG         ON      NM,43.3,50.52,40.41,16.67,Compra,Tecnologia,Múltiplos de Receita
+TOTS3,TOTVS       ON      NM,42.28,49.33,39.46,16.67,Compra,Tecnologia,Múltiplos de Receita
+B3SA3,B3          ON      NM,14.32,17.18,13.75,20.0,Compra,Financeiro,Gordon Growth
+TAEE3,TAESA       ON  EJ  N2,11.8,10.73,8.58,-9.09,Venda Parcial,Utilities,Fluxo de Caixa Descontado
+CMIG3,CEMIG       ON      N1,15.14,13.76,11.01,-9.09,Venda Parcial,Utilities,Fluxo de Caixa Descontado
+PETR4,PETROBRAS   PN      N2,31.33,36.55,29.24,16.67,Compra,Geral,Múltiplos Gerais
+VALE3,VALE        ON  ATZ NM,54.35,59.79,47.83,10.0,Compra,Commodities,Ciclo de Preços
+ITSA4,ITAUSA      PN      N1,11.07,12.92,10.33,16.67,Compra,Geral,Múltiplos Gerais
+ABEV3,AMBEV S/A   ON  ED,14.19,18.92,15.14,33.33,Compra Forte,Consumo,Múltiplos Comparáveis
+RENT3,LOCALIZA    ON      NM,40.43,53.91,43.13,33.33,Compra Forte,Consumo,Múltiplos Comparáveis
+MGLU3,MAGAZ LUIZA ON      NM,9.15,12.2,9.76,33.33,Compra Forte,Consumo,Múltiplos Comparáveis
+RADL3,RAIADROGASILON      NM,14.52,19.36,15.49,33.33,Compra Forte,Consumo,Múltiplos Comparáveis
+CSAN3,COSAN       ON      NM,8.1,8.91,7.13,10.0,Compra,Commodities,Ciclo de Preços
+EQTL3,EQUATORIAL  ON      NM,36.08,32.8,26.24,-9.09,Venda Parcial,Utilities,Fluxo de Caixa Descontado
