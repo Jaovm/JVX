@@ -342,5 +342,5 @@ for simbolo, dados in resultados.items():
     })
 
 df_resumo = pd.DataFrame(resumo)
-df_resumo.to_csv('data/resumo_acoes.csv', index=False)
+df_resumo.to_csv("resumo_acoes.csv", index=False)
 print("Resumo salvo em data/resumo_acoes.csv")
