@@ -321,7 +321,7 @@ for acao in acoes:
     time.sleep(1)
 
 # Salvar resultados em arquivo JSON
-with open('data/acoes_dados.json', 'w') as f:
+with open('acoes_dados.json', 'w') as f:
     json.dump(resultados, f)
 
 print("\nDados coletados e salvos com sucesso!")
