@@ -69,7 +69,7 @@ def buscar_dados_yfinance(ticker_symbol):
     try:
         ticker = yf.Ticker(ticker_symbol)
         # Histórico de 5 anos, intervalo mensal
-        hist = ticker.history(period="5y", interval="1mo")
+        hist = ticker.history(period="10y", interval="1mo")
         # Informações da empresa
         info = ticker.info
         # Recomendações (pode não estar sempre disponível)
