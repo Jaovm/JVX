@@ -31,28 +31,28 @@ acoes_default = [
 setores = {
     'Financeiro': {
         'acoes': ['BBAS3.SA', 'ITUB3.SA', 'B3SA3.SA', 'BPAC11.SA', 'BBSE3.SA', 'PSSA3.SA', 'ITSA4.SA'],
-        'metodo': 'Gordon Growth', # Simplificado para P/L ou P/VP heurístico
-        'parametros': {'p_l_justo': 10, 'p_vp_justo': 1.5} # Exemplo de parâmetros
+        'metodo': 'Múltiplos (P/L, P/VP)',
+        'parametros': {'p_l_justo': 10, 'p_vp_justo': 1.5}
     },
     'Utilities': {
         'acoes': ['EGIE3.SA', 'CMIG3.SA', 'SBSP3.SA', 'SAPR3.SA', 'TAEE3.SA', 'EQTL3.SA'],
-        'metodo': 'Fluxo de Caixa Descontado', # Simplificado para Dividend Yield ou P/L
-        'parametros': {'dividend_yield_justo': 0.06, 'p_l_justo': 12}
+        'metodo': 'Múltiplos (P/L, Dividend Yield, EV/EBITDA)',
+        'parametros': {'dividend_yield_justo': 0.06, 'p_l_justo': 12, 'ev_ebitda_justo': 8}
     },
     'Tecnologia': {
         'acoes': ['TOTS3.SA', 'WEGE3.SA'],
-        'metodo': 'Múltiplos de Receita', # Simplificado para P/L
-        'parametros': {'p_l_justo': 20}
+        'metodo': 'Múltiplos (P/S, EV/EBITDA)',
+        'parametros': {'p_s_justo': 3, 'ev_ebitda_justo': 12, 'p_l_justo': 20} # P/L como fallback
     },
     'Commodities': {
         'acoes': ['AGRO3.SA', 'PRIO3.SA', 'VALE3.SA', 'SUZB3.SA', 'CSAN3.SA', 'PETR4.SA'],
-        'metodo': 'Ciclo de Preços', # Simplificado para P/L ou EV/EBITDA heurístico
+        'metodo': 'Múltiplos (P/L, EV/EBITDA)',
         'parametros': {'p_l_justo': 8, 'ev_ebitda_justo': 6}
     },
     'Consumo': {
         'acoes': ['VIVT3.SA', 'ABEV3.SA', 'RENT3.SA', 'MGLU3.SA', 'RADL3.SA'],
-        'metodo': 'Múltiplos Comparáveis', # Simplificado para P/L
-        'parametros': {'p_l_justo': 15}
+        'metodo': 'Múltiplos (P/L, EV/EBITDA)',
+        'parametros': {'p_l_justo': 15, 'ev_ebitda_justo': 10}
     }
 }
 
@@ -69,7 +69,7 @@ def buscar_dados_yfinance(ticker_symbol):
     try:
         ticker = yf.Ticker(ticker_symbol)
         # Histórico de 5 anos, intervalo mensal
-        hist = ticker.history(period="10y", interval="1mo")
+        hist = ticker.history(period="5y", interval="1mo")
         # Informações da empresa
         info = ticker.info
         # Recomendações (pode não estar sempre disponível)
@@ -225,12 +225,21 @@ def calcular_preco_justo_yfinance(simbolo, info, insights):
         # Prioriza P/L
         if pd.notna(pe_ratio) and pe_ratio > 0 and 'p_l_justo' in parametros:
             preco_justo = preco_atual * (parametros['p_l_justo'] / pe_ratio) * ajuste
+        # Tenta P/S para Tecnologia
+        elif setor_acao == 'Tecnologia' and 'p_s_justo' in parametros and info.get('priceToSales') and info.get('priceToSales') > 0:
+            preco_justo = preco_atual * (parametros['p_s_justo'] / info.get('priceToSales')) * ajuste
+        # Tenta EV/EBITDA
+        elif 'ev_ebitda_justo' in parametros and info.get('enterpriseValue') and info.get('ebitda') and info.get('ebitda') > 0:
+            ev_ebitda_atual = info.get('enterpriseValue') / info.get('ebitda')
+            preco_justo = preco_atual * (parametros['ev_ebitda_justo'] / ev_ebitda_atual) * ajuste
         # Tenta Dividend Yield para Utilities
         elif setor_acao == 'Utilities' and pd.notna(dividend_yield) and dividend_yield > 0 and 'dividend_yield_justo' in parametros:
              preco_justo = preco_atual * (dividend_yield / parametros['dividend_yield_justo']) * ajuste
-        # Fallback para P/L genérico
+        # Fallback para P/L genérico se não houver outro método específico
         elif 'p_l_justo' in parametros:
-            preco_justo = preco_atual * (parametros['p_l_justo'] / 12.0) * ajuste
+            # Usar um P/L médio de mercado se o P/L da ação não estiver disponível ou for inválido
+            pl_base = pe_ratio if pd.notna(pe_ratio) and pe_ratio > 0 else 12.0 # P/L médio de mercado como fallback
+            preco_justo = preco_atual * (parametros['p_l_justo'] / pl_base) * ajuste
         else:
              preco_justo = preco_atual * ajuste
 
