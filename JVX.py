@@ -340,7 +340,7 @@ def atualizar_dados_completos_yfinance(acoes):
             erros_busca += 1
 
         progress_bar.progress((i + 1) / total_acoes)
-        time.sleep(0.1) # Pausa ainda menor
+        time.sleep(1) # Pausa para evitar rate limiting
 
     if erros_busca > 0:
         st.warning(f"Coleta concluída, mas falhou ou dados insuficientes para {erros_busca} de {total_acoes} ações.")
